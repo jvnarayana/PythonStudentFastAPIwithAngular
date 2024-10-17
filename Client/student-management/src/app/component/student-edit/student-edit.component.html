@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>Edit Student</h2>
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+
+    <!-- First Name -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" placeholder="Enter First Name" />
+      <mat-error *ngIf="studentForm.get('firstName')?.invalid && studentForm.get('firstName')?.touched">
+        First Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" placeholder="Enter Last Name" />
+      <mat-error *ngIf="studentForm.get('lastName')?.invalid && studentForm.get('lastName')?.touched">
+        Last Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- City -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" placeholder="Enter City" />
+      <mat-error *ngIf="studentForm.get('city')?.invalid && studentForm.get('city')?.touched">
+        City is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="fill" class="txtBox-size">
+      <mat-label>Address</mat-label>
+      <mat-select formControlName="addressId" placeholder="Select Address">
+        <mat-option *ngFor="let address of addresses" [value]="address.addressId">
+          {{ address.streetNumber }}, {{ address.city }}, {{address.state}} {{address.zipcode}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="studentForm.get('addressId')?.invalid && studentForm.get('addressId')?.touched">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" class="btn-width" type="submit" [disabled]="studentForm.invalid">Save</button>
+    <button mat-raised-button color="warn" type="submit" (click)="cancel()">Cancel</button>
+  </form>
+</div>
