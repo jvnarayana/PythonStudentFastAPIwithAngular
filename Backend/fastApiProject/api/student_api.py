@@ -38,7 +38,9 @@ async def create_students(student: Student, db: AsyncSession = Depends(get_db)):
 
 @router.put("/student/{student_id}", response_model=Student)
 async def update_students(student_id: int, student: Student, db: AsyncSession = Depends(get_db)):
-    return await update_student(db,student_id, student)
+    return await update_student(db, student_id, student)
+
+
 @router.delete("/student/{student_id}", response_model=Student)
 async def delete_students(student_id: int, db: AsyncSession = Depends(get_db)):
     return await delete_student(id, student_id)

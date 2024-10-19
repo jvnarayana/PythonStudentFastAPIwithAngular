@@ -8,6 +8,7 @@ async def get_all_students(db: AsyncSession):
     result = await db.execute(select(Student).options(selectinload(Student.address)))
     return result.scalars().all()
 
+
 async def get_student_by_id(db: AsyncSession, student_id: int) -> Student:
     result = await db.execute(select(Student).where(Student.id == student_id))
     return result.scalar()
@@ -20,7 +21,7 @@ async def create_student(db: AsyncSession, student: Student) -> Student:
     return student
 
 
-async def update_student(db: AsyncSession, student_id:int, updated_data: dict) -> Student:
+async def update_student(db: AsyncSession, student_id: int, updated_data: dict) -> Student:
     student = await get_student_by_id(db, student_id)
     for key, value in updated_data.items():
         setattr(student, key, value)
@@ -35,4 +36,3 @@ async def delete_student(db: AsyncSession, student_id: int):
         await db.delete(student)
         await db.commit()
     return student
-
