@@ -6,15 +6,18 @@ security = HTTPBearer()
 
 
 async def jwt_auth_middleware(request: Request, call_next):
-    token = request.headers.get('Authorization')
-    if not token:
+    auth_header = request.headers.get('Authorization')
+    if not auth_header:
         raise HTTPException(status_code=403, detail="Token is missing")
-    payload = verify_jwt_token(token.split('Bearer ')[1])
+    token = auth_header.split('Bearer ')[1]
+    payload = verify_jwt_token(token)
     if not payload:
         raise HTTPException(status_code=403, detail="Token payload is invalid")
 
     request.state.user = payload['sub']
-    return await call_next(request)
+
+    response = await call_next(request)
+    return response
 
 
 

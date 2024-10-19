@@ -1,13 +1,14 @@
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from ..dbConfig.config import settings
+from ..models.User import User
 
-SECRET_KEY = settings.SECRET_KEY
-ALGORITHM = settings.ALGORITHM
-ACCESS_TOKEN_EXPIRE = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE)
+SECRET_KEY = settings.JWT_SECRET_KEY
+ALGORITHM = settings.JWT_ALGORITHM
+ACCESS_TOKEN_EXPIRE = timedelta(minutes=settings.JWT_EXPIRATION_TIME)
 
 
-def create_jwt_token(user: dict):
+def create_jwt_token(user: User) -> str:
     to_encode = user.copy()
     expire = datetime.utcnow() + ACCESS_TOKEN_EXPIRE
     to_encode.update({'exp': expire})

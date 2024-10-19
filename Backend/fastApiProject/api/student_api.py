@@ -1,17 +1,17 @@
-from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..dbConfig.db import get_db
-from ..models.Student import Student
+from ..models.Student import Student as StudentModel
+from ..Schemas.student import Student as StudentSchema
 from ..repository.student_repository import get_all_students, get_student_by_id, create_student, update_student, \
     delete_student
 from ..services.cache_service import get_cache, set_cache
+from typing import List
 
 router = APIRouter()
 
 
-@router.get("/students", response_model=List[Student])
+@router.get("/students", response_model=List[StudentSchema])
 async def get_students(db: AsyncSession = Depends(get_db)):
     students = await get_all_students(db)
 
@@ -20,7 +20,7 @@ async def get_students(db: AsyncSession = Depends(get_db)):
     return students
 
 
-@router.get("/students/{student_id}", response_model=Student)
+@router.get("/students/{student_id}", response_model=StudentSchema)
 async def get_studentById(student_id: int, db: AsyncSession = Depends(get_db)):
     cache_key = f"student_{student_id}"
     cached_student = await get_cache(cache_key)
@@ -31,16 +31,16 @@ async def get_studentById(student_id: int, db: AsyncSession = Depends(get_db)):
     return student
 
 
-@router.post("/student", response_model=Student)
-async def create_students(student: Student, db: AsyncSession = Depends(get_db)):
+@router.post("/student", response_model=StudentSchema)
+async def create_students(student: StudentSchema, db: AsyncSession = Depends(get_db)):
     return await create_student(db, student)
 
 
-@router.put("/student/{student_id}", response_model=Student)
-async def update_students(student_id: int, student: Student, db: AsyncSession = Depends(get_db)):
+@router.put("/student/{student_id}", response_model=StudentSchema)
+async def update_students(student_id: int, student: StudentSchema, db: AsyncSession = Depends(get_db)):
     return await update_student(db, student_id, student)
 
 
-@router.delete("/student/{student_id}", response_model=Student)
+@router.delete("/student/{student_id}", response_model=StudentSchema)
 async def delete_students(student_id: int, db: AsyncSession = Depends(get_db)):
     return await delete_student(id, student_id)

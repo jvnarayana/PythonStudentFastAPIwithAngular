@@ -11,4 +11,4 @@ class Student(Base):
     address_id = Column(Integer, ForeignKey('Address.address_id'), nullable=True)
     city = Column(String(100), nullable=True)
 
-    address = relationship("Address", back_populates="students")
+    address = relationship("Address", back_populates="Students")

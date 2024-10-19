@@ -1,8 +1,8 @@
-import aioredis
+import redis.asyncio as redis
 from ..dbConfig.config import settings
 
 
-redis = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
+redis = redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 
 async def get_cache(key: str):

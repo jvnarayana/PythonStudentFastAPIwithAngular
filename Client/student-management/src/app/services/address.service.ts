@@ -7,7 +7,7 @@ import {Address, Student} from "../models/student.model";
   providedIn: 'root'
 })
 export class AddressService {
-  private  API_BASE_URL = 'http://localhost:5081/api/address'
+  private  API_BASE_URL = 'http://localhost:8000/api/address'
   constructor(private  httpClient: HttpClient) {
 
   }
